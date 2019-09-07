@@ -1240,9 +1240,7 @@
     rootURL: _environment.default.rootURL
   });
 
-  Router.map(function () {
-    this.route('test');
-  });
+  Router.map(function () {});
 
   exports.default = Router;
 });
@@ -1332,14 +1330,6 @@
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "6avc/iMV", "block": "{\"symbols\":[],\"statements\":[[1,[21,\"header-jumbotron\"],false],[0,\"\\n\"],[1,[21,\"image-gallery-grid\"],false]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/index.hbs" } });
-});
-;define("portfolio-final-checkin/templates/test", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "fNG1WePV", "block": "{\"symbols\":[],\"statements\":[[0,\"Test sub page works\"]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/test.hbs" } });
 });
 ;
 
