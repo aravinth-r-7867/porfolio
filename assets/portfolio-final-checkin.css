@@ -9655,7 +9655,9 @@ h3 {
     border-color: #dee2e6;
   }
 }
-.display-4, .lead, img {
+.display-4,
+.lead,
+img {
   animation: show-animation 0.5s linear;
 }
 
@@ -9670,17 +9672,15 @@ h3 {
   height: 100%;
   width: 100%;
   max-width: 100%;
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  justify-content: center;
   background-image: url(/assets/images/kanyakumari-wave.JPG);
   background-size: cover;
-  background-position: 0 -200px;
+  background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   position: relative;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 .jumbotron .container .header-backdrop {
   position: absolute;
@@ -9691,13 +9691,24 @@ h3 {
 .jumbotron * {
   transition: 0.25s ease-in all;
 }
-.jumbotron .display-4 {
+.jumbotron .header-content,
+.jumbotron .navbar {
+  z-index: 2;
+}
+.jumbotron .header-content {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+.jumbotron .header-content .display-4 {
   font-family: "Lato";
   font-size: 6rem;
 }
-.jumbotron .display-4, .jumbotron .lead {
+.jumbotron .header-content .display-4,
+.jumbotron .header-content .lead {
   color: #fff;
-  z-index: 2;
   text-shadow: 1px 0px 2px rgba(255, 255, 255, 0.5);
 }
 .jumbotron.shrink .container {
@@ -9715,23 +9726,59 @@ h3 {
 @media screen and (max-width: 426px) {
   .jumbotron {
     position: static;
-    padding: 20px 0;
+    padding: 0;
     margin-bottom: 0;
     height: auto;
   }
   .jumbotron .container {
     background-position: 0 0;
-    background-size: contain;
-    padding: 50px 0;
+    background-size: 100%;
+    padding: 0;
   }
-  .jumbotron .display-4 {
+  .jumbotron .header-content .display-4 {
     font-size: 2.5rem;
     margin-left: 10px;
   }
-  .jumbotron .lead {
+  .jumbotron .header-content .lead {
     font-size: 1.5rem;
     margin-left: 10px;
   }
+  .jumbotron .collapse:not(.show) {
+    display: block;
+    height: 0;
+    overflow: hidden;
+  }
+  .jumbotron .collapse.show {
+    height: 175px;
+  }
+}
+
+.navbar a.navbar-brand,
+.navbar a.nav-link {
+  color: #fff;
+  font-size: 18px;
+}
+
+button.navbar-toggler {
+  display: flex;
+  flex-flow: column wrap;
+  outline: none;
+}
+button.navbar-toggler .navbar-toggler-icon {
+  cursor: pointer;
+  height: 5px;
+  background-color: #fff;
+  margin-bottom: 5px;
+  border-radius: 1px;
+}
+button.navbar-toggler.clicked .hiddenOnClck {
+  display: none;
+}
+button.navbar-toggler.clicked .nti__first {
+  transform: rotate(135deg) translate(7px, -7px);
+}
+button.navbar-toggler.clicked .nti__second {
+  transform: rotate(45deg);
 }
 
 .container-fluid {
