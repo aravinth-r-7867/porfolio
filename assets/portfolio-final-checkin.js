@@ -1240,9 +1240,19 @@
     rootURL: _environment.default.rootURL
   });
 
-  Router.map(function () {});
+  Router.map(function () {
+    this.route('about');
+  });
 
   exports.default = Router;
+});
+;define('portfolio-final-checkin/routes/about', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend({});
 });
 ;define('portfolio-final-checkin/routes/index', ['exports'], function (exports) {
   'use strict';
@@ -1272,6 +1282,14 @@
       return _ajax.default;
     }
   });
+});
+;define("portfolio-final-checkin/templates/about", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "3J4nKR5c", "block": "{\"symbols\":[],\"statements\":[[7,\"div\"],[11,\"class\",\"container pt-5\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"row\"],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"col-4\"],[9],[0,\"\\n            \"],[7,\"img\"],[11,\"class\",\"img-fluid\"],[11,\"src\",\"/assets/images/profile-picture.jpg\"],[9],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"col-8\"],[9],[0,\"\\n            \"],[7,\"h1\"],[11,\"class\",\"display-4 text-center poppins-font\"],[9],[7,\"u\"],[9],[0,\"About\"],[10],[10],[0,\"\\n            \"],[7,\"p\"],[9],[0,\"I'm Aravinth Ramesh. \"],[7,\"br\"],[9],[10],[0,\" I'm a web developer and photography is my passion. I wander around places to take pictures with my DSLR.\"],[10],[0,\"\\n        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"],[10]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/about.hbs" } });
 });
 ;define("portfolio-final-checkin/templates/application", ["exports"], function (exports) {
   "use strict";

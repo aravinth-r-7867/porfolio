@@ -9797,6 +9797,7 @@ h3 {
 
 .image-gallery-grid {
   margin-top: -100px;
+  background-color: dimgray;
 }
 .image-gallery-grid .img-fluid {
   transition: all 0.25s ease-in-out;
@@ -9848,8 +9849,8 @@ h3 {
   box-sizing: border-box;
 }
 
-body {
-  background: gray;
+.poppins-font {
+  font-family: "Poppins";
 }
 
 /*# sourceMappingURL=portfolio-final-checkin.css.map */
