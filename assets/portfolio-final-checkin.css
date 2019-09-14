@@ -9655,13 +9655,15 @@ h3 {
     border-color: #dee2e6;
   }
 }
-.remainder-wrapper, .remainder-scorecard {
+.remainder-wrapper,
+.remainder-scorecard {
   display: flex;
   flex-flow: row wrap;
   background-color: #fff;
   box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21) !important;
 }
-.remainder-wrapper .display-4, .remainder-scorecard .display-4 {
+.remainder-wrapper .display-4,
+.remainder-scorecard .display-4 {
   font-size: 20px;
 }
 
@@ -9924,17 +9926,8 @@ button.navbar-toggler.clicked .nti__second {
     transform: rotateY(180deg);
     background-color: #880000;
   }
-  33% {
-    transform: rotateY(360deg);
-    background: #fff;
-    border: 1px solid #880000;
-  }
-  66% {
-    transform: rotateY(540deg);
-    background-color: #880000;
-  }
   100% {
-    transform: rotateY(720deg);
+    transform: rotateY(0deg);
     background: #fff;
     border: 1px solid #880000;
   }
@@ -9953,11 +9946,13 @@ button.navbar-toggler.clicked .nti__second {
 .remainder-wrapper {
   padding: 30px;
   width: 760px;
+  z-index: 1;
 }
 @media screen and (max-width: 426px) {
   .remainder-wrapper {
-    padding: 10px;
+    padding: 5px;
     justify-content: center;
+    min-height: 520px;
   }
 }
 
@@ -9970,6 +9965,8 @@ button.navbar-toggler.clicked .nti__second {
   .remainder-scorecard {
     margin-bottom: 10px;
     padding: 10px 20px;
+    min-height: 100px;
+    justify-content: center;
   }
 }
 .remainder-scorecard .progress {
@@ -9996,7 +9993,7 @@ button.navbar-toggler.clicked .nti__second {
   background-image: linear-gradient(to bottom right, #ff0000, #880000);
 }
 .remainder-card.rotate {
-  animation: card-rotate 0.5s linear;
+  animation: card-rotate 0.5s ease-out;
   transform: rotateY(0deg);
 }
 .remainder-card.rotate:hover {
@@ -10010,10 +10007,12 @@ button.navbar-toggler.clicked .nti__second {
 }
 @media screen and (max-width: 426px) {
   .remainder-card {
-    width: 40px;
-    height: 80px;
-    margin: 5px 10px;
+    width: calc((100vw / 5) - 18px);
+    height: calc((100vh/10) - 25px);
+    min-height: 40px;
+    margin: 5px;
     font-size: 22px;
+    border-radius: 8px;
   }
 }
 
@@ -10029,6 +10028,13 @@ button.navbar-toggler.clicked .nti__second {
   justify-content: center;
   font-family: "lato";
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+}
+@media screen and (max-width: 426px) {
+  .moves-scorecard {
+    font-size: 25px;
+    min-width: 60px;
+    height: 75px;
+  }
 }
 
 .scorecard-label {
@@ -10055,6 +10061,44 @@ button.navbar-toggler.clicked .nti__second {
   transition: width 0.6s, background-color 0.6s ease;
 }
 
+.scorecard-help {
+  padding: 0 10px 0 20px;
+  background: transparent url(/help.png) no-repeat center left/15px;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.remainder-mobile-help-card {
+  box-shadow: 0px -10px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 6px;
+  position: fixed;
+  bottom: 0px;
+  left: 10px;
+  width: calc(100% - 20px);
+  font-size: 20px;
+  background-color: #fff;
+  transition: transform 0.1s cubic-bezier(0.21, 0.21, 1, 0.55);
+  transform: translateY(100%);
+  z-index: 10;
+}
+.remainder-mobile-help-card ul {
+  padding-left: 25px;
+}
+.remainder-mobile-help-card .rmhc--close {
+  padding: 0 10px;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 6px;
+  color: #fff;
+  text-align: center;
+  background-color: #5cb85c;
+}
+.remainder-mobile-help-card[active] {
+  transform: translateY(0%);
+  bottom: 10px;
+}
+
 a .jumbotron {
   color: #000;
 }
@@ -10070,7 +10114,7 @@ a .jumbotron:hover {
 }
 @media screen and (max-width: 426px) {
   .works-container {
-    padding: 20px 0;
+    padding: 0;
     justify-content: center;
   }
 }
