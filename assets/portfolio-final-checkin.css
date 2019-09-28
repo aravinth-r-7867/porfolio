@@ -9864,6 +9864,7 @@ button.navbar-toggler.clicked .nti__second {
   display: inline-flex;
   flex-flow: column wrap;
   padding: 0 10px;
+  justify-content: space-between;
 }
 
 .image-gallery-grid {
@@ -9890,6 +9891,15 @@ button.navbar-toggler.clicked .nti__second {
   .image-gallery-grid .col-12 img {
     margin-bottom: 5px !important;
     margin-top: 5px !important;
+  }
+  .image-gallery-grid > .row .grid-col:nth-child(1) {
+    order: 2;
+  }
+  .image-gallery-grid > .row .grid-col:nth-child(2) {
+    order: 1;
+  }
+  .image-gallery-grid > .row .grid-col:nth-child(3) {
+    order: 3;
   }
 }
 

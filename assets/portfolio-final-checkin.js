@@ -881,7 +881,7 @@
                 "sixth": "trichy-uchi-pillayar-kovil.jpg",
                 "seventh": "srirangam-temple.jpg"
             }, {
-                "first": "Aluva-aquaduct-bridge.jpg ",
+                "first": "Rameshwaram-Pamban-bridge.jpg",
                 "second": "kaveri-water.JPG",
                 "third": "manali-buddha-temple.jpg",
                 "fourth": "Alleppey-boat.JPG",
@@ -890,11 +890,11 @@
                 "seventh": "manali-tree.JPG"
             }, {
                 "first": "kanyakumari-horse.JPG",
-                "second": "pitchavaram-sun.jpg",
+                "second": "Aluva-aquaduct-bridge.jpg ",
                 "third": "kanyakumari-boat.JPG",
                 "fourth": "srirangam-sculpture.JPG",
                 "fifth": "kanyakumari-sea-roaring.JPG",
-                "sixth": "tanjore-pillar.JPG",
+                "sixth": "pitchavaram-sun.jpg",
                 "seventh": "marina-sun-1.JPG"
             }]);
             var self = this;
@@ -1703,7 +1703,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+839243dc"});
+            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+dc2a765b"});
           }
         
 //# sourceMappingURL=portfolio-final-checkin.map
