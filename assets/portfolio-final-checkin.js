@@ -872,30 +872,94 @@
         init() {
             this._super(...arguments);
             this.set('isModalOpen', false);
+            this.set('imageAll', [{
+                "imageUrl": "marina-boat.JPG",
+                "imageIndex": 0
+            }, {
+                "imageUrl": "marina-sun-2.JPG",
+                "imageIndex": 1
+            }, {
+                "imageUrl": "Arikkal-falls.JPG",
+                "imageIndex": 2
+            }, {
+                "imageUrl": "Athirapally-falls.jpg",
+                "imageIndex": 3
+            }, {
+                "imageUrl": "couples-in-marina.JPG",
+                "imageIndex": 4
+            }, {
+                "imageUrl": "trichy-uchi-pillayar-kovil.jpg",
+                "imageIndex": 5
+            }, {
+                "imageUrl": "srirangam-temple.jpg",
+                "imageIndex": 6
+            }, {
+                "imageUrl": "kanyakumari-horse.JPG",
+                "imageIndex": 7
+            }, {
+                "imageUrl": "Aluva-aquaduct-bridge.jpg",
+                "imageIndex": 8
+            }, {
+                "imageUrl": "pitchavaram-sun.jpg",
+                "imageIndex": 9
+            }, {
+                "imageUrl": "srirangam-sculpture.JPG",
+                "imageIndex": 10
+            }, {
+                "imageUrl": "kanyakumari-sea-roaring.JPG",
+                "imageIndex": 11
+            }, {
+                "imageUrl": "kanyakumari-boat.JPG",
+                "imageIndex": 12
+            }, {
+                "imageUrl": "marina-sun-1.JPG",
+                "imageIndex": 13
+            }, {
+                "imageUrl": "Rameshwaram-Pamban-bridge.jpg",
+                "imageIndex": 14
+            }, {
+                "imageUrl": "kaveri-water.JPG",
+                "imageIndex": 15
+            }, {
+                "imageUrl": "manali-buddha-temple.jpg",
+                "imageIndex": 16
+            }, {
+                "imageUrl": "Alleppey-boat.JPG",
+                "imageIndex": 17
+            }, {
+                "imageUrl": "manali-stream.jpg",
+                "imageIndex": 18
+            }, {
+                "imageUrl": "manali-sun.JPG",
+                "imageIndex": 19
+            }, {
+                "imageUrl": "manali-tree.JPG",
+                "imageIndex": 20
+            }]);
             this.set('imageList', [{
-                "first": "marina-boat.JPG",
-                "second": "marina-sun-2.JPG ",
-                "third": "Arikkal-falls.JPG",
-                "fourth": "Athirapally-falls.jpg",
-                "fifth": "couples-in-marina.JPG",
-                "sixth": "trichy-uchi-pillayar-kovil.jpg",
-                "seventh": "srirangam-temple.jpg"
+                "first": { "url": "marina-boat.JPG", "imageIndex": 0 },
+                "second": { "url": "marina-sun-2.JPG", "imageIndex": 1 },
+                "third": { "url": "Arikkal-falls.JPG", "imageIndex": 2 },
+                "fourth": { "url": "Athirapally-falls.jpg", "imageIndex": 3 },
+                "fifth": { "url": "couples-in-marina.JPG", "imageIndex": 4 },
+                "sixth": { "url": "trichy-uchi-pillayar-kovil.jpg", "imageIndex": 5 },
+                "seventh": { "url": "srirangam-temple.jpg", "imageIndex": 6 }
             }, {
-                "first": "Rameshwaram-Pamban-bridge.JPG",
-                "second": "kaveri-water.JPG",
-                "third": "manali-buddha-temple.jpg",
-                "fourth": "Alleppey-boat.JPG",
-                "fifth": "manali-stream.jpg",
-                "sixth": "manali-sun.JPG",
-                "seventh": "manali-tree.JPG"
+                "first": { "url": "Rameshwaram-Pamban-bridge.jpg", "imageIndex": 7 },
+                "second": { "url": "kaveri-water.JPG", "imageIndex": 8 },
+                "third": { "url": "manali-buddha-temple.jpg", "imageIndex": 9 },
+                "fourth": { "url": "Alleppey-boat.JPG", "imageIndex": 10 },
+                "fifth": { "url": "manali-stream.jpg", "imageIndex": 11 },
+                "sixth": { "url": "manali-sun.JPG", "imageIndex": 12 },
+                "seventh": { "url": "manali-tree.JPG", "imageIndex": 13 }
             }, {
-                "first": "kanyakumari-horse.JPG",
-                "second": "Aluva-aquaduct-bridge.jpg ",
-                "third": "kanyakumari-boat.JPG",
-                "fourth": "srirangam-sculpture.JPG",
-                "fifth": "kanyakumari-sea-roaring.JPG",
-                "sixth": "pitchavaram-sun.jpg",
-                "seventh": "marina-sun-1.JPG"
+                "first": { "url": "kanyakumari-horse.JPG", "imageIndex": 14 },
+                "second": { "url": "Aluva-aquaduct-bridge.jpg", "imageIndex": 15 },
+                "third": { "url": "pitchavaram-sun.jpg", "imageIndex": 16 },
+                "fourth": { "url": "srirangam-sculpture.JPG", "imageIndex": 17 },
+                "fifth": { "url": "kanyakumari-sea-roaring.JPG", "imageIndex": 18 },
+                "sixth": { "url": "kanyakumari-boat.JPG", "imageIndex": 19 },
+                "seventh": { "url": "marina-sun-1.JPG", "imageIndex": 20 }
             }]);
             var self = this;
             //  this.imageList.forEach(function(item, index){
@@ -906,15 +970,22 @@
             // });
         },
         didInsertElement() {},
+        myOptions: {
+            followFinger: false,
+            //effect: 'fade',
+            loop: true,
+            speed: 250,
+            // pagination: {
+            //     el: '.swiper-pagination',
+            //     type: 'fraction',
+            // },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        },
         actions: {
-            openModal: function (ImageSrc) {
-                this.toggleProperty('isModalOpen');
-                setTimeout(function () {
-                    ImageSrc = '/assets/images/' + ImageSrc;
-                    $("#modalImageContainer").css('background-image', 'url(' + ImageSrc + ')');
-                }, 0);
-            },
-            closeModal: function () {
+            openModal: function () {
                 this.toggleProperty('isModalOpen');
             }
         }
@@ -1120,6 +1191,32 @@
             }
         }
     });
+});
+;define('portfolio-final-checkin/components/swiper-container', ['exports', 'ember-cli-swiper/components/swiper-container'], function (exports, _swiperContainer) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _swiperContainer.default;
+    }
+  });
+});
+;define('portfolio-final-checkin/components/swiper-slide', ['exports', 'ember-cli-swiper/components/swiper-slide'], function (exports, _swiperSlide) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _swiperSlide.default;
+    }
+  });
 });
 ;define('portfolio-final-checkin/components/welcome-page', ['exports', 'ember-welcome-page/components/welcome-page'], function (exports, _welcomePage) {
   'use strict';
@@ -1638,7 +1735,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "kTq0IJAV", "block": "{\"symbols\":[\"imageName\",\"index\"],\"statements\":[[7,\"div\"],[11,\"class\",\"row\"],[9],[0,\"\\n\"],[4,\"each\",[[23,[\"imageList\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"col-sm-4 col-12 grid-col\"],[9],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,1,[\"first\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n             \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,1,[\"first\"]]]]],[9],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,1,[\"second\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n            \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,1,[\"second\"]]]]],[9],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,1,[\"third\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n            \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,1,[\"third\"]]]]],[9],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,1,[\"fourth\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n            \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,1,[\"fourth\"]]]]],[9],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,1,[\"fifth\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n            \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,1,[\"fifth\"]]]]],[9],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,1,[\"sixth\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n            \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,1,[\"sixth\"]]]]],[9],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,1,[\"seventh\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n            \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,1,[\"seventh\"]]]]],[9],[10],[0,\"\\n        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[1,2]},null],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"isModalOpen\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"modalBackdrop\"],[11,\"id\",\"modalImageContainer\"],[9],[0,\"\\n        \"],[7,\"span\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"closeModal\"],null]],[9],[0,\"Close\"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/image-gallery-grid.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "r+8fzz2L", "block": "{\"symbols\":[\"imgItem\",\"imageName\",\"index\"],\"statements\":[[7,\"div\"],[11,\"class\",\"row\"],[9],[0,\"\\n\"],[4,\"each\",[[23,[\"imageList\"]]],null,{\"statements\":[[0,\"        \"],[7,\"div\"],[11,\"class\",\"col-sm-4 col-12 grid-col\"],[9],[0,\"\\n            \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,2,[\"first\",\"imageIndex\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n                \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,2,[\"first\",\"url\"]]]]],[9],[10],[0,\"\\n            \"],[10],[0,\"\\n            \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,2,[\"second\",\"imageIndex\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n                \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,2,[\"second\",\"url\"]]]]],[9],[10],[0,\"\\n            \"],[10],[0,\"\\n            \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,2,[\"third\",\"imageIndex\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n                \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,2,[\"third\",\"url\"]]]]],[9],[10],[0,\"\\n            \"],[10],[0,\"\\n            \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,2,[\"fourth\",\"imageIndex\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n                \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,2,[\"fourth\",\"url\"]]]]],[9],[10],[0,\"\\n            \"],[10],[0,\"\\n            \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,2,[\"fifth\",\"imageIndex\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n                \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,2,[\"fifth\",\"url\"]]]]],[9],[10],[0,\"\\n            \"],[10],[0,\"\\n            \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,2,[\"sixth\",\"imageIndex\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n                \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,2,[\"sixth\",\"url\"]]]]],[9],[10],[0,\"\\n            \"],[10],[0,\"\\n            \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\",[22,2,[\"seventh\",\"imageIndex\"]]],null]],[11,\"class\",\"image-wrapper\"],[9],[0,\"\\n                \"],[7,\"img\"],[11,\"class\",\"img-fluid border\"],[12,\"src\",[28,[\"/assets/images/\",[22,2,[\"seventh\",\"url\"]]]]],[9],[10],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n\"]],\"parameters\":[2,3]},null],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"isModalOpen\"]]],null,{\"statements\":[[7,\"div\"],[11,\"class\",\"modalBackdrop\"],[11,\"id\",\"modalImageContainer\"],[9],[0,\"\\n\"],[4,\"swiper-container\",null,[[\"options\"],[[23,[\"myOptions\"]]]],{\"statements\":[[4,\"each\",[[23,[\"imageAll\"]]],null,{\"statements\":[[4,\"swiper-slide\",null,null,{\"statements\":[[0,\"                \"],[7,\"div\"],[11,\"class\",\"mbd--img-wrapper\"],[12,\"style\",[28,[\"background-image: url(/assets/images/\",[22,1,[\"imageUrl\"]],\")\"]]],[9],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\"     \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"openModal\"],null]],[11,\"class\",\"CSS-caret-icon__close\"],[9],[10],[0,\"\\n\"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/image-gallery-grid.hbs" } });
 });
 ;define("portfolio-final-checkin/templates/components/remainder-game", ["exports"], function (exports) {
   "use strict";
@@ -1646,7 +1743,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "XurPi0qH", "block": "{\"symbols\":[\"card\",\"index\"],\"statements\":[[0,\"\\n\"],[7,\"div\"],[11,\"class\",\"col-sm-4\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"d-flex justify-content-around align-items-center\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"scorecard-help\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[9],[0,\"\\n                Help\\n            \"],[10],[0,\"\\n            \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Clicks : \"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[9],[1,[21,\"movesCount\"],false],[10],[0,\"\\n            \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Points :\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[9],[1,[21,\"gamePoints\"],false],[10],[0,\"\\n        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"],[4,\"unless\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"        \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"blockquote\"],[9],[0,\"\\n\"],[4,\"if\",[[22,0,[\"messageOnScenario\"]]],null,{\"statements\":[[0,\"                \"],[1,[27,\"game-message\",[[22,0,[\"messageOnScenario\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,0,[\"gameTurnStatus\"]]],null,{\"statements\":[[0,\"                Now click to open the second card in \"],[7,\"b\"],[9],[1,[21,\"secondsNow\"],false],[10],[0,\" seconds\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                Click to open a card\\n\"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"            \"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"gamePoints\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\"],[11,\"class\",\"d-flex \"],[9],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"col-3 p-0 font-weight-bolder\"],[11,\"data-toggle\",\"tooltip\"],[11,\"data-placement\",\"top\"],[11,\"title\",\"Tooltip on top\"],[9],[0,\"\\n                    Accuracy\\n                \"],[10],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"progress col-9 p-0\"],[9],[0,\"\\n                    \"],[7,\"div\"],[12,\"class\",[28,[\"progress-bar \",[23,[\"accuracyPoints\",\"class\"]]]]],[11,\"role\",\"progressbar\"],[12,\"style\",[23,[\"accuracyPoints\",\"html\"]]],[12,\"aria-valuenow\",[23,[\"accuracyPoints\",\"value\"]]],[11,\"aria-valuemin\",\"0\"],[11,\"aria-valuemax\",\"100\"],[9],[0,\"\\n                        \"],[1,[23,[\"accuracyPoints\",\"value\"]],false],[0,\"%\"],[10],[0,\"\\n                \"],[10],[0,\"\\n            \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,0,[\"gameEnd\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard blockquote mb-0\"],[9],[0,\"\\n        Yayyyy...!! You finished the game with \"],[1,[23,[\"progressBarPrev\",\"value\"]],false],[0,\"% accuracy.\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[10],[0,\"\\n\\n\"],[7,\"div\"],[11,\"class\",\"col-sm-8 d-flex justify-content-end\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"remainder-wrapper\"],[9],[0,\"\\n\"],[4,\"each\",[[22,0,[\"cardArray\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\"],[12,\"class\",[28,[\"remainder-card \",[27,\"if\",[[22,1,[\"hide\"]],\"hide\"],null]]]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"cardOpen\",[22,1,[\"value\"]]],null]],[9],[10],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"    \"],[10],[0,\"\\n\"],[10],[0,\"\\n\\n\"],[4,\"if\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"remainder-mobile-help-card\"],[12,\"active\",[21,\"toggleHelpCardMobile\"]],[9],[0,\"\\n        \"],[7,\"ul\"],[9],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click only two cards at a time\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click the second card within 5 seconds after clicking the first card\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                If both the cards contains same number you gain two points and the cards will get ridden.\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                \"],[7,\"b\"],[9],[0,\"Remember the number on the cards you clicked.\"],[10],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[11,\"class\",\"rmhc--close\"],[9],[0,\"Close\"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/remainder-game.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "n+NUVHYW", "block": "{\"symbols\":[\"card\",\"index\"],\"statements\":[[0,\"\\n\"],[7,\"div\"],[11,\"class\",\"col-sm-4\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"d-flex justify-content-around align-items-center\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"scorecard-help\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[9],[0,\"\\n                Help\\n            \"],[10],[0,\"\\n            \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Clicks : \"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[9],[1,[21,\"movesCount\"],false],[10],[0,\"\\n            \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Points :\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[9],[1,[21,\"gamePoints\"],false],[10],[0,\"\\n        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"],[4,\"unless\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"        \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"blockquote\"],[9],[0,\"\\n\"],[4,\"if\",[[22,0,[\"messageOnScenario\"]]],null,{\"statements\":[[0,\"                \"],[1,[27,\"game-message\",[[22,0,[\"messageOnScenario\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,0,[\"gameTurnStatus\"]]],null,{\"statements\":[[0,\"                Now click to open the second card in \"],[7,\"b\"],[9],[1,[21,\"secondsNow\"],false],[10],[0,\" seconds\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                Click to open a card\\n\"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"            \"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"gamePoints\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\"],[11,\"class\",\"d-flex \"],[9],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"col-3 p-0 font-weight-bolder\"],[11,\"data-toggle\",\"tooltip\"],[11,\"data-placement\",\"top\"],[11,\"title\",\"Tooltip on top\"],[9],[0,\"\\n                    Accuracy\\n                \"],[10],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"progress col-9 p-0\"],[9],[0,\"\\n                    \"],[7,\"div\"],[12,\"class\",[28,[\"progress-bar \",[23,[\"accuracyPoints\",\"class\"]]]]],[11,\"role\",\"progressbar\"],[12,\"style\",[23,[\"accuracyPoints\",\"html\"]]],[12,\"aria-valuenow\",[23,[\"accuracyPoints\",\"value\"]]],[11,\"aria-valuemin\",\"0\"],[11,\"aria-valuemax\",\"100\"],[9],[0,\"\\n                        \"],[1,[23,[\"accuracyPoints\",\"value\"]],false],[0,\"%\"],[10],[0,\"\\n                \"],[10],[0,\"\\n            \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,0,[\"gameEnd\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard blockquote mb-0\"],[9],[0,\"\\n        Yayyyy...!! You finished the game with \"],[1,[23,[\"progressBarPrev\",\"value\"]],false],[0,\"% accuracy.\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[10],[0,\"\\n\\n\"],[7,\"div\"],[11,\"class\",\"col-sm-8 d-flex justify-content-end\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"remainder-wrapper\"],[9],[0,\"\\n\"],[4,\"each\",[[22,0,[\"cardArray\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\"],[12,\"class\",[28,[\"remainder-card \",[27,\"if\",[[22,1,[\"hide\"]],\"remainder-card-hide\"],null]]]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"cardOpen\",[22,1,[\"value\"]]],null]],[9],[10],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"    \"],[10],[0,\"\\n\"],[10],[0,\"\\n\\n\"],[4,\"if\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"remainder-mobile-help-card\"],[12,\"active\",[21,\"toggleHelpCardMobile\"]],[9],[0,\"\\n        \"],[7,\"ul\"],[9],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click only two cards at a time\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click the second card within 5 seconds after clicking the first card\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                If both the cards contains same number you gain two points and the cards will get ridden.\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                \"],[7,\"b\"],[9],[0,\"Remember the number on the cards you clicked.\"],[10],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[11,\"class\",\"rmhc--close\"],[9],[0,\"Close\"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/remainder-game.hbs" } });
 });
 ;define("portfolio-final-checkin/templates/index", ["exports"], function (exports) {
   "use strict";
@@ -1703,7 +1800,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+b701e3d1"});
+            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+e21169fb"});
           }
         
 //# sourceMappingURL=portfolio-final-checkin.map

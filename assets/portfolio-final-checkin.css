@@ -9679,6 +9679,10 @@ a:hover {
   text-decoration: none;
 }
 
+.hide {
+  display: none !important;
+}
+
 .display-4,
 .lead,
 img {
@@ -9725,6 +9729,7 @@ img {
   align-items: center;
   justify-content: center;
   flex-grow: 1;
+  pointer-events: none;
 }
 .jumbotron.header-jumbotron-wrapper-override .header-content .display-4 {
   font-family: "Lato";
@@ -9747,7 +9752,7 @@ img {
 .jumbotron.header-jumbotron-wrapper-override.shrink .display-4 {
   font-size: 3rem;
 }
-@media screen and (max-width: 426px) {
+@media (max-width: 426px) {
   .jumbotron.header-jumbotron-wrapper-override {
     position: static;
     padding: 0;
@@ -9807,13 +9812,9 @@ button.navbar-toggler.clicked .nti__second {
 
 .container-fluid {
   padding: 0 8%;
+  z-index: 3;
 }
-.container-fluid img {
-  width: 100%;
-  min-height: 250px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-}
-@media screen and (max-width: 426px) {
+@media (max-width: 426px) {
   .container-fluid {
     padding: 0 15px;
   }
@@ -9824,6 +9825,11 @@ button.navbar-toggler.clicked .nti__second {
   cursor: pointer;
   user-select: none;
 }
+.container-fluid .image-wrapper img {
+  width: 100%;
+  min-height: 250px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
 .container-fluid .image-wrapper:before {
   content: "";
   width: 100%;
@@ -9833,7 +9839,7 @@ button.navbar-toggler.clicked .nti__second {
   transition: 0.1s background ease-in;
 }
 .container-fluid .image-wrapper:after {
-  content: "Click to see full image";
+  content: "Click to see all images";
   position: absolute;
   opacity: 0;
   width: 60%;
@@ -9868,7 +9874,7 @@ button.navbar-toggler.clicked .nti__second {
 }
 
 .image-gallery-grid {
-  margin-top: -100px;
+  margin-top: -30vh;
   background-color: dimgray;
 }
 .image-gallery-grid .img-fluid {
@@ -9905,7 +9911,6 @@ button.navbar-toggler.clicked .nti__second {
 
 .modalBackdrop {
   position: fixed;
-  transition: 0.25s background ease-in;
   width: 100%;
   height: 100vh;
   z-index: 10;
@@ -9916,14 +9921,56 @@ button.navbar-toggler.clicked .nti__second {
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
+  animation: show-animation 0.25s ease-in;
+  transition: 0.1s background-image ease-in;
 }
-.modalBackdrop span {
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  color: #fff;
-  font-size: 22px;
+.modalBackdrop .mbd--img-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.modalBackdrop .swiper-container, .modalBackdrop .swiper-wrapper {
+  height: 100%;
+}
+
+.CSS-caret-icon__close {
+  position: relative;
+  width: 25px;
+  height: 50px;
   cursor: pointer;
+  transition: 0.1s transform ease-in;
+}
+.CSS-caret-icon__close::after, .CSS-caret-icon__close::before {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 5px;
+  border-radius: 6px;
+  background-color: #fff;
+  left: 0;
+}
+
+.CSS-caret-icon__close::after {
+  transform: rotate(45deg);
+}
+.CSS-caret-icon__close::before {
+  transform: rotate(135deg);
+}
+
+.CSS-caret-icon__close {
+  position: fixed;
+  top: 15%;
+  right: 25px;
+  z-index: 13;
+}
+
+@media (max-width: 426px) {
+  .swiper-button-next, .swiper-button-prev {
+    display: none;
+  }
 }
 
 .remainder-card.rotate {
@@ -10010,7 +10057,7 @@ button.navbar-toggler.clicked .nti__second {
   cursor: pointer;
   background-image: none;
 }
-.remainder-card.hide {
+.remainder-card.remainder-card-hide {
   animation: card-hide 0.25s linear;
   transform: scale(0, 0);
   pointer-events: none;
