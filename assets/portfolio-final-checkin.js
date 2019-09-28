@@ -945,7 +945,7 @@
                 "sixth": { "url": "trichy-uchi-pillayar-kovil.jpg", "imageIndex": 5 },
                 "seventh": { "url": "srirangam-temple.jpg", "imageIndex": 6 }
             }, {
-                "first": { "url": "Rameshwaram-Pamban-bridge.jpg", "imageIndex": 7 },
+                "first": { "url": "Rameshwaram-Pamban-bridge.JPG", "imageIndex": 7 },
                 "second": { "url": "kaveri-water.JPG", "imageIndex": 8 },
                 "third": { "url": "manali-buddha-temple.jpg", "imageIndex": 9 },
                 "fourth": { "url": "Alleppey-boat.JPG", "imageIndex": 10 },
@@ -1800,7 +1800,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+b0732eec"});
+            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+40f30504"});
           }
         
 //# sourceMappingURL=portfolio-final-checkin.map
