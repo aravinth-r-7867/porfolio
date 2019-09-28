@@ -1800,7 +1800,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+e21169fb"});
+            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+b0732eec"});
           }
         
 //# sourceMappingURL=portfolio-final-checkin.map
