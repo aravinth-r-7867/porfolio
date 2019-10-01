@@ -894,7 +894,7 @@
                 "imageUrl": "srirangam-temple.jpg",
                 "imageIndex": 6
             }, {
-                "imageUrl": "Rameshwaram-Pamban-bridge.jpg",
+                "imageUrl": "Rameshwaram-Pamban-bridge.JPG",
                 "imageIndex": 7
             }, {
                 "imageUrl": "kaveri-water.JPG",
@@ -1797,7 +1797,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+40f30504"});
+            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+3d2b2f8e"});
           }
         
 //# sourceMappingURL=portfolio-final-checkin.map
