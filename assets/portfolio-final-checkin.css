@@ -9783,6 +9783,11 @@ img {
   color: #fff;
   text-shadow: 1px 0px 2px rgba(255, 255, 255, 0.5);
 }
+@media (max-width: 426px) {
+  .jumbotron.header-jumbotron-wrapper-override .header-content {
+    padding: 30px;
+  }
+}
 .jumbotron.header-jumbotron-wrapper-override.shrink .container {
   flex-direction: row;
   align-items: center;
