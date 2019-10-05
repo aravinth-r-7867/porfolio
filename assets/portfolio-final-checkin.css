@@ -9679,6 +9679,11 @@ a:hover {
   text-decoration: none;
 }
 
+.jumbotron.header-jumbotron-wrapper-override .header-content .lead-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .hide {
   display: none !important;
 }
@@ -9726,8 +9731,47 @@ html {
   scroll-behavior: smooth;
 }
 
+.header-content .display-4 {
+  font-size: 8vw;
+}
+@media (max-width: 1368px) {
+  .header-content .display-4 {
+    font-size: 6vw;
+  }
+}
+@media (max-width: 426px) {
+  .header-content .display-4 {
+    font-size: 10vw;
+  }
+}
+.header-content .lead {
+  font-size: 1.5vw;
+}
+@media (max-width: 1072px) {
+  .header-content .lead {
+    font-size: 2vw;
+  }
+}
+@media (max-width: 426px) {
+  .header-content .lead {
+    font-size: 5vw;
+  }
+}
+.header-content .lead-sub-header {
+  font-size: 1.25vw;
+}
+@media (max-width: 1072px) {
+  .header-content .lead-sub-header {
+    font-size: 2vw;
+  }
+}
+@media (max-width: 426px) {
+  .header-content .lead-sub-header {
+    font-size: 3vw;
+  }
+}
+
 .display-4,
-.lead,
 img {
   animation: show-animation 0.5s linear;
 }
@@ -9753,16 +9797,9 @@ img {
   display: flex;
   flex-direction: column;
 }
-.jumbotron.header-jumbotron-wrapper-override .container .header-backdrop {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-}
 .jumbotron.header-jumbotron-wrapper-override * {
   transition: 0.25s ease-in all;
 }
-.jumbotron.header-jumbotron-wrapper-override .header-content,
 .jumbotron.header-jumbotron-wrapper-override .navbar {
   z-index: 2;
 }
@@ -9772,33 +9809,49 @@ img {
   align-items: center;
   justify-content: center;
   flex-grow: 1;
-  pointer-events: none;
+  background: rgba(0, 0, 0, 0.3);
 }
 .jumbotron.header-jumbotron-wrapper-override .header-content .display-4 {
   font-family: "Lato";
-  font-size: 6rem;
 }
-.jumbotron.header-jumbotron-wrapper-override .header-content .display-4,
-.jumbotron.header-jumbotron-wrapper-override .header-content .lead {
+.jumbotron.header-jumbotron-wrapper-override .header-content .display-4, .jumbotron.header-jumbotron-wrapper-override .header-content .lead, .jumbotron.header-jumbotron-wrapper-override .header-content .lead-sub-header {
   color: #fff;
   text-shadow: 1px 0px 2px rgba(255, 255, 255, 0.5);
 }
 @media (max-width: 426px) {
-  .jumbotron.header-jumbotron-wrapper-override .header-content {
-    padding: 30px;
+  .jumbotron.header-jumbotron-wrapper-override .header-content .lead-wrapper {
+    flex-direction: column;
   }
+  .jumbotron.header-jumbotron-wrapper-override .header-content .lead-wrapper .lead {
+    margin-bottom: 10px;
+    margin-left: 0;
+  }
+}
+.jumbotron.header-jumbotron-wrapper-override .header-content .lead-wrapper .lead {
+  padding: 5px;
+  border: 0.001rem solid #fff;
+  text-align: center;
+  margin-left: 10px;
+  transition: 0.25s background, color, border ease-in;
+  cursor: pointer;
+}
+.jumbotron.header-jumbotron-wrapper-override .header-content .lead-wrapper .lead[active] {
+  background-color: #fff;
+  color: #000;
+}
+@media screen and (min-width: 600px) {
+  .jumbotron.header-jumbotron-wrapper-override .header-content .lead-wrapper .lead:hover {
+    background-color: #fff;
+    color: #000;
+  }
+}
+.jumbotron.header-jumbotron-wrapper-override .header-content .lead-sub-header {
+  padding-top: 10px;
 }
 .jumbotron.header-jumbotron-wrapper-override.shrink .container {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-}
-.jumbotron.header-jumbotron-wrapper-override.shrink .lead {
-  margin-bottom: 0;
-  margin-left: 10px;
-}
-.jumbotron.header-jumbotron-wrapper-override.shrink .display-4 {
-  font-size: 3rem;
 }
 @media (max-width: 426px) {
   .jumbotron.header-jumbotron-wrapper-override {
@@ -9808,16 +9861,14 @@ img {
     height: auto;
   }
   .jumbotron.header-jumbotron-wrapper-override .container {
-    background-position: 0 0;
-    background-size: 100%;
+    background-position: -20px 0;
+    background-size: 150%;
     padding: 0;
   }
-  .jumbotron.header-jumbotron-wrapper-override .header-content .display-4 {
-    font-size: 2.5rem;
-    margin-left: 10px;
+  .jumbotron.header-jumbotron-wrapper-override .header-content {
+    padding: 30px 0;
   }
-  .jumbotron.header-jumbotron-wrapper-override .header-content .lead {
-    font-size: 1.5rem;
+  .jumbotron.header-jumbotron-wrapper-override .header-content .display-4 {
     margin-left: 10px;
   }
   .jumbotron.header-jumbotron-wrapper-override .collapse:not(.show) {

@@ -852,10 +852,19 @@
         init() {
             this._super(...arguments);
             this.set('showNavBarMob', false);
+            this.set('leadCountOne', true);
+            this.set('leadCountTwo', false);
+            this.set('leadCountThree', false);
         },
         actions: {
             showNavToggle: function () {
                 this.toggleProperty('showNavBarMob');
+            },
+            leadClick: function (par) {
+                this.set('leadCountOne', false);
+                this.set('leadCountTwo', false);
+                this.set('leadCountThree', false);
+                this.set(par, true);
             }
         }
     });
@@ -1752,7 +1761,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "WYEjY8/c", "block": "{\"symbols\":[],\"statements\":[[7,\"div\"],[11,\"class\",\"container\"],[9],[0,\"\\n\\n\"],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"header-content\"],[9],[0,\"\\n        \"],[7,\"h1\"],[11,\"class\",\"display-4\"],[9],[0,\"Aravinth Ramesh\"],[10],[0,\"\\n        \"],[7,\"p\"],[11,\"class\",\"lead\"],[9],[0,\"Web developer, photographer and travel enthusiast.\"],[10],[0,\"\\n    \"],[10],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"header-backdrop\"],[9],[10],[0,\"\\n    \\n\"],[10]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/header-jumbotron.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "EDe/spKA", "block": "{\"symbols\":[],\"statements\":[[7,\"div\"],[11,\"class\",\"container\"],[11,\"id\",\"scrollHere\"],[9],[0,\"\\n\\n\"],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"header-content\"],[9],[0,\"\\n        \"],[7,\"h1\"],[11,\"class\",\"display-4\"],[9],[0,\"Aravinth Ramesh\"],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"lead-wrapper\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"lead\"],[12,\"active\",[21,\"leadCountOne\"]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"leadClick\",\"leadCountOne\"],null]],[9],[0,\"Front-end developer\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"lead\"],[12,\"active\",[21,\"leadCountTwo\"]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"leadClick\",\"leadCountTwo\"],null]],[9],[0,\"Photographer by passion\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"lead\"],[12,\"active\",[21,\"leadCountThree\"]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"leadClick\",\"leadCountThree\"],null]],[9],[0,\"Travel enthusiast\"],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"lead-sub-header\"],[9],[0,\"\\n\"],[4,\"if\",[[23,[\"leadCountOne\"]]],null,{\"statements\":[[0,\"            Any doubts? I made this website from scratch\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[23,[\"leadCountTwo\"]]],null,{\"statements\":[[0,\"            I own a Canon EOS 1500d and I take awesome photos\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[23,[\"leadCountThree\"]]],null,{\"statements\":[[0,\"            I travel a lot and love to write about them\\n            \"]],\"parameters\":[]},null]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n    \\n\"],[10]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/header-jumbotron.hbs" } });
 });
 ;define("portfolio-final-checkin/templates/components/image-gallery-grid", ["exports"], function (exports) {
   "use strict";
@@ -1833,7 +1842,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+af29acea"});
+            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+e9b837c8"});
           }
         
 //# sourceMappingURL=portfolio-final-checkin.map
