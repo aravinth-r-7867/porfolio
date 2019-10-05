@@ -9683,6 +9683,49 @@ a:hover {
   display: none !important;
 }
 
+.scroll-to-top {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: rgba(100, 149, 237, 0.75);
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.25s transform, background ease-in;
+  animation: show-animation 0.25s ease-in;
+}
+.scroll-to-top:active {
+  transform: scale(0.5, 0.5);
+}
+.scroll-to-top:hover {
+  background-color: cornflowerblue;
+}
+.scroll-to-top:hover div[class^=stt__] {
+  top: calc(50% - 3px);
+}
+.scroll-to-top div[class^=stt__] {
+  width: 15px;
+  height: 3px;
+  background-color: #fff;
+  top: calc(50% - 1px);
+  position: absolute;
+}
+.scroll-to-top .stt__left {
+  transform: rotate(-45deg);
+  left: 5px;
+}
+.scroll-to-top .stt__right {
+  transform: rotate(45deg);
+  right: 5px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 .display-4,
 .lead,
 img {

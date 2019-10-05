@@ -1189,6 +1189,34 @@
         }
     });
 });
+;define('portfolio-final-checkin/components/scroll-to-top', ['exports'], function (exports) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = Ember.Component.extend({
+        init() {
+            this._super(...arguments);
+            this.set('scrolledDown', false);
+            var self = this;
+            if (screen.width > 426) {
+                $(window).scroll(function (event) {
+                    if ($(window).scrollTop() > 500) {
+                        self.set('scrolledDown', true);
+                    } else {
+                        self.set('scrolledDown', false);
+                    }
+                });
+            }
+        },
+        actions: {
+            scrollToTop: function () {
+                window.scrollTo(0, 0);
+            }
+        }
+    });
+});
 ;define('portfolio-final-checkin/components/swiper-container', ['exports', 'ember-cli-swiper/components/swiper-container'], function (exports, _swiperContainer) {
   'use strict';
 
@@ -1742,13 +1770,21 @@
   });
   exports.default = Ember.HTMLBars.template({ "id": "n+NUVHYW", "block": "{\"symbols\":[\"card\",\"index\"],\"statements\":[[0,\"\\n\"],[7,\"div\"],[11,\"class\",\"col-sm-4\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"d-flex justify-content-around align-items-center\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"scorecard-help\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[9],[0,\"\\n                Help\\n            \"],[10],[0,\"\\n            \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Clicks : \"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[9],[1,[21,\"movesCount\"],false],[10],[0,\"\\n            \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Points :\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[9],[1,[21,\"gamePoints\"],false],[10],[0,\"\\n        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"],[4,\"unless\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"        \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"blockquote\"],[9],[0,\"\\n\"],[4,\"if\",[[22,0,[\"messageOnScenario\"]]],null,{\"statements\":[[0,\"                \"],[1,[27,\"game-message\",[[22,0,[\"messageOnScenario\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,0,[\"gameTurnStatus\"]]],null,{\"statements\":[[0,\"                Now click to open the second card in \"],[7,\"b\"],[9],[1,[21,\"secondsNow\"],false],[10],[0,\" seconds\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                Click to open a card\\n\"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"            \"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"gamePoints\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\"],[11,\"class\",\"d-flex \"],[9],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"col-3 p-0 font-weight-bolder\"],[11,\"data-toggle\",\"tooltip\"],[11,\"data-placement\",\"top\"],[11,\"title\",\"Tooltip on top\"],[9],[0,\"\\n                    Accuracy\\n                \"],[10],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"progress col-9 p-0\"],[9],[0,\"\\n                    \"],[7,\"div\"],[12,\"class\",[28,[\"progress-bar \",[23,[\"accuracyPoints\",\"class\"]]]]],[11,\"role\",\"progressbar\"],[12,\"style\",[23,[\"accuracyPoints\",\"html\"]]],[12,\"aria-valuenow\",[23,[\"accuracyPoints\",\"value\"]]],[11,\"aria-valuemin\",\"0\"],[11,\"aria-valuemax\",\"100\"],[9],[0,\"\\n                        \"],[1,[23,[\"accuracyPoints\",\"value\"]],false],[0,\"%\"],[10],[0,\"\\n                \"],[10],[0,\"\\n            \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,0,[\"gameEnd\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard blockquote mb-0\"],[9],[0,\"\\n        Yayyyy...!! You finished the game with \"],[1,[23,[\"progressBarPrev\",\"value\"]],false],[0,\"% accuracy.\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[10],[0,\"\\n\\n\"],[7,\"div\"],[11,\"class\",\"col-sm-8 d-flex justify-content-end\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"remainder-wrapper\"],[9],[0,\"\\n\"],[4,\"each\",[[22,0,[\"cardArray\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\"],[12,\"class\",[28,[\"remainder-card \",[27,\"if\",[[22,1,[\"hide\"]],\"remainder-card-hide\"],null]]]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"cardOpen\",[22,1,[\"value\"]]],null]],[9],[10],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"    \"],[10],[0,\"\\n\"],[10],[0,\"\\n\\n\"],[4,\"if\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"remainder-mobile-help-card\"],[12,\"active\",[21,\"toggleHelpCardMobile\"]],[9],[0,\"\\n        \"],[7,\"ul\"],[9],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click only two cards at a time\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click the second card within 5 seconds after clicking the first card\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                If both the cards contains same number you gain two points and the cards will get ridden.\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                \"],[7,\"b\"],[9],[0,\"Remember the number on the cards you clicked.\"],[10],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[11,\"class\",\"rmhc--close\"],[9],[0,\"Close\"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/remainder-game.hbs" } });
 });
+;define("portfolio-final-checkin/templates/components/scroll-to-top", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "ujbjycMC", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[23,[\"scrolledDown\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"title\",\"Scroll to top\"],[11,\"class\",\"scroll-to-top\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"scrollToTop\"],null]],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"stt__left\"],[9],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"stt__right\"],[9],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/scroll-to-top.hbs" } });
+});
 ;define("portfolio-final-checkin/templates/index", ["exports"], function (exports) {
   "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "6avc/iMV", "block": "{\"symbols\":[],\"statements\":[[1,[21,\"header-jumbotron\"],false],[0,\"\\n\"],[1,[21,\"image-gallery-grid\"],false]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/index.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "igVJP/Xr", "block": "{\"symbols\":[],\"statements\":[[1,[21,\"header-jumbotron\"],false],[0,\"\\n\"],[1,[21,\"image-gallery-grid\"],false],[0,\"\\n\"],[1,[21,\"scroll-to-top\"],false]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/index.hbs" } });
 });
 ;define("portfolio-final-checkin/templates/works", ["exports"], function (exports) {
   "use strict";
