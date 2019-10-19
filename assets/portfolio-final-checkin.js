@@ -839,6 +839,25 @@
     }
   });
 });
+;define('portfolio-final-checkin/components/gallery-component', ['exports'], function (exports) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = Ember.Component.extend({
+        /**
+         * @galleryImagesData main array contains all the images categorized in objects,
+         * @galleryMainData array contains images for main slideshow
+         */
+        imageGalleryData: Ember.inject.service(),
+        init() {
+            this._super(...arguments);
+            this.set('galleryImagesData', this.imageGalleryData.galleryImagesData);
+        }
+
+    });
+});
 ;define('portfolio-final-checkin/components/header-jumbotron', ['exports'], function (exports) {
     'use strict';
 
@@ -1004,23 +1023,37 @@
         value: true
     });
     exports.default = Ember.Component.extend({
-        classNames: ['w-100 row justify-content-between'],
+        classNames: ['w-100 row pt-3 pb-3'],
         randomize: Ember.inject.service(),
         init() {
             this._super(...arguments);
+
+            /**
+             * To check the device screen for mobile
+             */
             var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
             if (width < 500) {
                 this.set('isMobile', true);
             } else {
                 this.set('isMobile', false);
             }
+
+            /**To clear the finished game data
+             */
             if (parseInt(localStorage.getItem('gamePoints')) == 50) {
                 localStorage.removeItem('cardArray');
                 localStorage.removeItem('matchedArray');
                 localStorage.removeItem('gamePoints');
                 localStorage.removeItem('movesCount');
+                localStorage.removeItem('gameLevelDegree');
             }
+
+            /**To check if any incomplete game data is present 
+            * @true get the cards order, get the (if any) matched cards and remove them
+            * @false for new game find the level
+            */
             if (localStorage.getItem("cardArray")) {
+                this.set('gameLevelDegree', localStorage.getItem('remainderLevel'));
                 this.set('cardArray', JSON.parse(localStorage.getItem("cardArray")));
                 if (localStorage.getItem('matchedArray')) {
                     this.set('matchedArray', JSON.parse(localStorage.getItem('matchedArray')));
@@ -1038,9 +1071,16 @@
                     this.set('matchedArray', []);
                 }
             } else {
+                if (localStorage.getItem('remainderLevel')) {} else {
+                    localStorage.setItem('remainderLevel', 1);
+                    this.set('gameLevelDegree', 1);
+                }
+
                 this.set('cardArray', []);
                 this.set('matchedArray', []);
-                for (var i = 1, j = 0; i < 26; i++, j = j + 2) {
+
+                ///Set of cards are multiples of 6
+                for (var i = 1, j = 0; i <= this.gameLevelDegree * 6; i++, j = j + 2) {
                     let obj = {};
                     obj.value = i;
                     obj.show = false;
@@ -1066,6 +1106,38 @@
             this.set('gameStatus', []);
             this.set('progressBarPrev', {});
             this.set('gameEnd', false);
+            this.set('showLoader', false);
+        },
+        resetGame: function () {
+            //showing loader for 3 seconds
+            this.set('showLoader', true);
+            var self = this;
+            setTimeout(function () {
+                self.set('showLoader', false);
+            }, 3000);
+
+            //clearing off prev stored data (cardArray is renewed below with new array)
+            localStorage.setItem('movesCount', 0);
+            localStorage.setItem('matchedArray', []);
+            localStorage.setItem('gamePoints', 0);
+
+            this.set('cardArray', []);
+            this.set('matchedArray', []);
+            this.set('movesCount', 0);
+            this.set('gamePoints', 0);
+            this.set('gameLevelDegree', localStorage.getItem('remainderLevel'));
+
+            ///Set of cards are multiples of 6
+            for (var i = 1, j = 0; i <= this.gameLevelDegree * 6; i++, j = j + 2) {
+                let obj = {};
+                obj.value = i;
+                obj.show = false;
+                obj.hide = false;
+                this.cardArray.pushObject(obj);
+                this.cardArray.pushObject(obj);
+            }
+            this.set('cardArray', this.randomize.randomizeArray(this.cardArray));
+            localStorage.setItem('cardArray', JSON.stringify(this.cardArray));
         },
         accuracyPoints: Ember.computed("movesCount", function () {
             if (this.gamePoints == 0) {
@@ -1093,18 +1165,22 @@
             localStorage.setItem('matchedArray', JSON.stringify(this.matchedArray));
             this.set('gamePoints', this.gamePoints + 2);
             localStorage.setItem('gamePoints', this.gamePoints);
-            if (this.gamePoints == 50) {
+            if (this.gamePoints == this.cardArray.length) {
                 this.toggleProperty('gameEnd');
-                localStorage.removeItem('cardArray');
-                localStorage.removeItem('matchedArray');
-                localStorage.removeItem('gamePoints');
-                localStorage.removeItem('movesCount');
+                var self = this;
+                // setTimeout(function(){
+                //     self.toggleProperty('gameEnd');
+                // }, 10000);
+                localStorage.setItem('remainderLevel', JSON.parse(localStorage.getItem('remainderLevel')) + 0.5);
+                setTimeout(function () {
+                    self.resetGame();
+                }, 1000);
             }
             this.set('messageOnScenario', 2);
             var self = this;
             setTimeout(function () {
-                $(self.firstElem).addClass('hide');
-                $(self.secondElem).addClass('hide');
+                $(self.firstElem).addClass('remainder-card-hide');
+                $(self.secondElem).addClass('remainder-card-hide');
                 self.turnResetter();
             }, 1000);
         },
@@ -1194,6 +1270,12 @@
             },
             mobileHelpCardFun: function () {
                 this.toggleProperty('toggleHelpCardMobile');
+            },
+            clearLocalData: function () {
+                this.resetGame();
+            },
+            clearData: function () {
+                window.localStorage.clear();
             }
         }
     });
@@ -1264,6 +1346,98 @@
       return _welcomePage.default;
     }
   });
+});
+;define('portfolio-final-checkin/controllers/gallery/kerala', ['exports'], function (exports) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = Ember.Controller.extend({
+        imageGalleryData: Ember.inject.service(),
+        init() {
+            this.set('galleryMainData', this.imageGalleryData.galleryImagesData[1].allImages);
+        },
+        myOptions: {
+            followFinger: false,
+            loop: true,
+            speed: 250,
+            initialSlide: 0,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        }
+    });
+});
+;define('portfolio-final-checkin/controllers/gallery/manali', ['exports'], function (exports) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = Ember.Controller.extend({
+        imageGalleryData: Ember.inject.service(),
+        init() {
+            this.set('galleryMainData', this.imageGalleryData.galleryImagesData[2].allImages);
+        },
+        myOptions: {
+            followFinger: false,
+            loop: true,
+            speed: 250,
+            initialSlide: 0,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        }
+    });
+});
+;define('portfolio-final-checkin/controllers/gallery/marina', ['exports'], function (exports) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = Ember.Controller.extend({
+        imageGalleryData: Ember.inject.service(),
+        init() {
+            this.set('galleryMainData', this.imageGalleryData.galleryImagesData[0].allImages);
+        },
+        myOptions: {
+            followFinger: false,
+            loop: true,
+            speed: 250,
+            initialSlide: 0,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        }
+    });
+});
+;define('portfolio-final-checkin/controllers/gallery/south-india', ['exports'], function (exports) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = Ember.Controller.extend({
+        imageGalleryData: Ember.inject.service(),
+        init() {
+            this.set('galleryMainData', this.imageGalleryData.galleryImagesData[3].allImages);
+        },
+        myOptions: {
+            followFinger: false,
+            loop: true,
+            speed: 250,
+            initialSlide: 0,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        }
+    });
 });
 ;define('portfolio-final-checkin/helpers/-link-to-params', ['exports', 'ember-angle-bracket-invocation-polyfill/helpers/-link-to-params'], function (exports, _linkToParams) {
   'use strict';
@@ -1365,6 +1539,31 @@
     }
   });
 });
+;define('portfolio-final-checkin/helpers/game-level', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.gameLevel = gameLevel;
+  function gameLevel(params /*, hash*/) {
+    if (params[0] == 1) {
+      return 'One';
+    } else if (params[0] == 1.5) {
+      return 'Two ';
+    } else if (params[0] == 2) {
+      return 'Three';
+    } else if (params[0] == 2.5) {
+      return 'Four';
+    } else if (params[0] == 3) {
+      return 'Five';
+    } else if (params[0] == 3.5) {
+      return 'Six';
+    }
+  }
+
+  exports.default = Ember.Helper.helper(gameLevel);
+});
 ;define("portfolio-final-checkin/helpers/game-message", ["exports"], function (exports) {
     "use strict";
 
@@ -1401,6 +1600,32 @@
   }
 
   exports.default = Ember.Helper.helper(isEqual);
+});
+;define('portfolio-final-checkin/helpers/is-greater', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.isGreater = isGreater;
+  function isGreater(params /*, hash*/) {
+    return params[0] > params[1];
+  }
+
+  exports.default = Ember.Helper.helper(isGreater);
+});
+;define('portfolio-final-checkin/helpers/minus', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.minus = minus;
+  function minus(params /*, hash*/) {
+    return params[0] - params[1];
+  }
+
+  exports.default = Ember.Helper.helper(minus);
 });
 ;define('portfolio-final-checkin/helpers/perform', ['exports', 'ember-concurrency/helpers/perform'], function (exports, _perform) {
   'use strict';
@@ -1620,11 +1845,57 @@
     this.route('works', function () {
       this.route('remainder');
     });
+    this.route('gallery', function () {
+      this.route('marina');
+      this.route('kerala');
+      this.route('south-india');
+      this.route('manali');
+    });
   });
 
   exports.default = Router;
 });
 ;define('portfolio-final-checkin/routes/about', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend({});
+});
+;define('portfolio-final-checkin/routes/gallery', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend({});
+});
+;define('portfolio-final-checkin/routes/gallery/kerala', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend({});
+});
+;define('portfolio-final-checkin/routes/gallery/manali', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend({});
+});
+;define('portfolio-final-checkin/routes/gallery/marina', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend({});
+});
+;define('portfolio-final-checkin/routes/gallery/south-india', ['exports'], function (exports) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -1684,6 +1955,43 @@
       return _ajax.default;
     }
   });
+});
+;define('portfolio-final-checkin/services/image-gallery-data', ['exports'], function (exports) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = Ember.Service.extend({
+        init() {
+            this._super(...arguments);
+            this.set('galleryImagesData', [{
+                'thumbnail': 'marina-boat.JPG',
+                'title': 'Marina beach, Chennai',
+                'active': true,
+                'url': 'gallery.marina',
+                'allImages': ['couples-in-marina.jpg', 'marina-boat.JPG', 'marina-sun-2.JPG', 'marina-sun-1.JPG']
+            }, {
+                'thumbnail': 'Arikkal-falls.JPG',
+                'title': 'Kerala',
+                'active': false,
+                'url': 'gallery.kerala',
+                'allImages': ['Arikkal-falls.JPG', 'Athirapally-falls.jpg', 'Alleppey-boat.JPG', 'Arikkal_falls_motion_capture.jpg', 'Aluva_aparments.jpg', 'Anchelpetty_rubber_tree.jpg', 'Aluva-aquaduct-bridge.jpg']
+            }, {
+                'thumbnail': 'manali-sun.JPG',
+                'title': 'Delhi - Shimla - Manali',
+                'active': false,
+                'url': 'gallery.manali',
+                'allImages': ['manali-sun.JPG', 'manali-tree.JPG', 'manali-stream.jpg', 'Delhi_highway_tower.jpg', 'manali_fiber_handcraft.jpg', 'manali-buddha-temple.jpg']
+            }, {
+                'thumbnail': 'kanyakumari-horse.JPG',
+                'title': 'South India',
+                'active': false,
+                'url': 'gallery.south-india',
+                'allImages': ['kanyakumari-wave.jpg', 'kanyakumari-horse.JPG', 'kanyakumari-sea-roaring.JPG', 'kanyakumari-boat.JPG', 'kaveri-water.jpg', 'pitchavaram-sun.jpg', 'Rameshwaram-Pamban-bridge.jpg', 'srirangam-sculpture.jpg', 'srirangam-temple.jpg', 'tanjore-pillar.jpg', 'trichy-uchi-pillayar-kovil.jpg', 'southindia-1.jpg', 'southindia-2.jpg', 'southindia-3.jpg', 'southindia-4.jpg', 'southindia-5.jpg', 'southindia-6.jpg', 'southindia-7.jpg', 'southindia-8.jpg', 'southindia-9.jpg', 'southindia-10.jpg', 'southindia-11.jpg', 'southindia-12.jpg', 'southindia-13.jpg', 'southindia-14.jpg', 'southindia-15.jpg', 'southindia-16.jpg', 'southindia-17.jpg']
+            }]);
+        }
+    });
 });
 ;define('portfolio-final-checkin/services/randomize', ['exports'], function (exports) {
     'use strict';
@@ -1755,13 +2063,21 @@
     }
   });
 });
+;define("portfolio-final-checkin/templates/components/gallery-component", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "tN6gqw+L", "block": "{\"symbols\":[\"imageData\",\"index\"],\"statements\":[[7,\"div\"],[11,\"class\",\"gallery-wrapper\"],[9],[0,\"\\n\\t\\t\"],[7,\"div\"],[11,\"class\",\"gw--left\"],[9],[0,\"\\n\"],[0,\"\\t\\t\\t\"],[7,\"div\"],[11,\"class\",\"gwl--main\"],[9],[0,\"\\n\"],[4,\"each\",[[23,[\"galleryImagesData\"]]],null,{\"statements\":[[4,\"link-to\",[[22,1,[\"url\"]]],null,{\"statements\":[[0,\"                        \"],[7,\"div\"],[11,\"class\",\"gwl--card\"],[9],[0,\"\\n                            \"],[7,\"img\"],[12,\"src\",[28,[\"/assets/images/\",[22,1,[\"thumbnail\"]]]]],[9],[10],[0,\"\\n                            \"],[7,\"div\"],[11,\"class\",\"gwl--caption\"],[9],[0,\"\\n                                \"],[7,\"span\"],[12,\"data-active\",[22,1,[\"active\"]]],[9],[0,\"\\n                                \"],[1,[22,1,[\"title\"]],false],[0,\"\\n                                \"],[10],[0,\"\\n                            \"],[10],[0,\"\\n                        \"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1,2]},null],[0,\"\\t\\t\\t\"],[10],[0,\"\\n\\t\\t\"],[10],[0,\"\\n\\t\\t\"],[7,\"div\"],[11,\"class\",\"gw--main\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"gw--main-wrapper\"],[9],[0,\"\\n                \"],[1,[21,\"outlet\"],false],[0,\"\\n            \"],[10],[0,\"\\n\\t\\t\"],[10],[0,\"\\n\\t\"],[10]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/gallery-component.hbs" } });
+});
 ;define("portfolio-final-checkin/templates/components/header-jumbotron", ["exports"], function (exports) {
   "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "EDe/spKA", "block": "{\"symbols\":[],\"statements\":[[7,\"div\"],[11,\"class\",\"container\"],[11,\"id\",\"scrollHere\"],[9],[0,\"\\n\\n\"],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"header-content\"],[9],[0,\"\\n        \"],[7,\"h1\"],[11,\"class\",\"display-4\"],[9],[0,\"Aravinth Ramesh\"],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"lead-wrapper\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"lead\"],[12,\"active\",[21,\"leadCountOne\"]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"leadClick\",\"leadCountOne\"],null]],[9],[0,\"Front-end developer\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"lead\"],[12,\"active\",[21,\"leadCountTwo\"]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"leadClick\",\"leadCountTwo\"],null]],[9],[0,\"Photographer by passion\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"lead\"],[12,\"active\",[21,\"leadCountThree\"]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"leadClick\",\"leadCountThree\"],null]],[9],[0,\"Travel enthusiast\"],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"lead-sub-header\"],[9],[0,\"\\n\"],[4,\"if\",[[23,[\"leadCountOne\"]]],null,{\"statements\":[[0,\"            Any doubts? I made this website from scratch\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[23,[\"leadCountTwo\"]]],null,{\"statements\":[[0,\"            I own a Canon EOS 1500d and I take awesome photos\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[23,[\"leadCountThree\"]]],null,{\"statements\":[[0,\"            I travel a lot and love to write about them\\n            \"]],\"parameters\":[]},null]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n    \\n\"],[10]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/header-jumbotron.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Y4zi9SlW", "block": "{\"symbols\":[],\"statements\":[[7,\"div\"],[11,\"class\",\"container\"],[11,\"id\",\"scrollHere\"],[9],[0,\"\\n\"],[7,\"div\"],[11,\"class\",\"header-faded-backdrop\"],[9],[10],[0,\"\\n\\n\"],[0,\"    \"],[7,\"nav\"],[11,\"class\",\"navbar navbar-expand-lg\"],[9],[0,\"\\n        \"],[7,\"span\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"showNavToggle\"],null]],[9],[0,\"Menu\"],[10],[0,\"\\n        \"],[7,\"button\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"showNavToggle\"],null]],[12,\"class\",[28,[\"navbar-toggler \",[27,\"if\",[[23,[\"showNavBarMob\"]],\"clicked\"],null]]]],[11,\"data-toggle\",\"collapse\"],[11,\"data-target\",\"#navbarNav\"],[11,\"aria-controls\",\"navbarNav\"],[11,\"aria-expanded\",\"false\"],[11,\"aria-label\",\"Toggle navigation\"],[11,\"type\",\"button\"],[9],[0,\"\\n            \"],[7,\"span\"],[11,\"class\",\"navbar-toggler-icon nti__first\"],[9],[10],[0,\"\\n            \"],[7,\"span\"],[11,\"class\",\"navbar-toggler-icon nti__second\"],[9],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"class\",[28,[\"collapse navbar-collapse justify-content-end \",[27,\"if\",[[23,[\"showNavBarMob\"]],\"show\"],null]]]],[11,\"id\",\"navbarNav\"],[9],[0,\"\\n            \"],[7,\"ul\"],[11,\"class\",\"navbar-nav\"],[9],[0,\"\\n                \"],[7,\"li\"],[11,\"class\",\"nav-item\"],[9],[0,\"\\n\"],[4,\"link-to\",[\"gallery.south-india\"],[[\"class\"],[\"nav-link\"]],{\"statements\":[[0,\"                        Gallery\\n\"]],\"parameters\":[]},null],[0,\"                \"],[10],[0,\"\\n                \"],[7,\"li\"],[11,\"class\",\"nav-item\"],[9],[0,\"\\n\"],[4,\"link-to\",[\"works.remainder\"],[[\"class\"],[\"nav-link\"]],{\"statements\":[[0,\"                        My work\\n\"]],\"parameters\":[]},null],[0,\"                \"],[10],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n    \"],[10],[0,\" \\n\"],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"header-content\"],[9],[0,\"\\n        \"],[7,\"h1\"],[11,\"class\",\"display-4\"],[9],[0,\"Aravinth Ramesh\"],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"lead-wrapper\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"lead\"],[12,\"active\",[21,\"leadCountOne\"]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"leadClick\",\"leadCountOne\"],null]],[9],[0,\"Front-end developer\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"lead\"],[12,\"active\",[21,\"leadCountTwo\"]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"leadClick\",\"leadCountTwo\"],null]],[9],[0,\"Photographer by passion\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"lead\"],[12,\"active\",[21,\"leadCountThree\"]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"leadClick\",\"leadCountThree\"],null]],[9],[0,\"Travel enthusiast\"],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"lead-sub-header\"],[9],[0,\"\\n\"],[4,\"if\",[[23,[\"leadCountOne\"]]],null,{\"statements\":[[0,\"            Any doubts? I made this website from scratch\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[23,[\"leadCountTwo\"]]],null,{\"statements\":[[0,\"            I own a Canon EOS 1500d and I take awesome photos\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[23,[\"leadCountThree\"]]],null,{\"statements\":[[0,\"            I travel a lot and love to write about them\\n            \"]],\"parameters\":[]},null]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n    \\n\"],[10]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/header-jumbotron.hbs" } });
 });
 ;define("portfolio-final-checkin/templates/components/image-gallery-grid", ["exports"], function (exports) {
   "use strict";
@@ -1777,7 +2093,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "n+NUVHYW", "block": "{\"symbols\":[\"card\",\"index\"],\"statements\":[[0,\"\\n\"],[7,\"div\"],[11,\"class\",\"col-sm-4\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"d-flex justify-content-around align-items-center\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"scorecard-help\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[9],[0,\"\\n                Help\\n            \"],[10],[0,\"\\n            \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Clicks : \"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[9],[1,[21,\"movesCount\"],false],[10],[0,\"\\n            \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Points :\"],[10],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[9],[1,[21,\"gamePoints\"],false],[10],[0,\"\\n        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"],[4,\"unless\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"        \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"blockquote\"],[9],[0,\"\\n\"],[4,\"if\",[[22,0,[\"messageOnScenario\"]]],null,{\"statements\":[[0,\"                \"],[1,[27,\"game-message\",[[22,0,[\"messageOnScenario\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,0,[\"gameTurnStatus\"]]],null,{\"statements\":[[0,\"                Now click to open the second card in \"],[7,\"b\"],[9],[1,[21,\"secondsNow\"],false],[10],[0,\" seconds\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                Click to open a card\\n\"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"            \"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"gamePoints\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\"],[11,\"class\",\"d-flex \"],[9],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"col-3 p-0 font-weight-bolder\"],[11,\"data-toggle\",\"tooltip\"],[11,\"data-placement\",\"top\"],[11,\"title\",\"Tooltip on top\"],[9],[0,\"\\n                    Accuracy\\n                \"],[10],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"progress col-9 p-0\"],[9],[0,\"\\n                    \"],[7,\"div\"],[12,\"class\",[28,[\"progress-bar \",[23,[\"accuracyPoints\",\"class\"]]]]],[11,\"role\",\"progressbar\"],[12,\"style\",[23,[\"accuracyPoints\",\"html\"]]],[12,\"aria-valuenow\",[23,[\"accuracyPoints\",\"value\"]]],[11,\"aria-valuemin\",\"0\"],[11,\"aria-valuemax\",\"100\"],[9],[0,\"\\n                        \"],[1,[23,[\"accuracyPoints\",\"value\"]],false],[0,\"%\"],[10],[0,\"\\n                \"],[10],[0,\"\\n            \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,0,[\"gameEnd\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard blockquote mb-0\"],[9],[0,\"\\n        Yayyyy...!! You finished the game with \"],[1,[23,[\"progressBarPrev\",\"value\"]],false],[0,\"% accuracy.\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[10],[0,\"\\n\\n\"],[7,\"div\"],[11,\"class\",\"col-sm-8 d-flex justify-content-end\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"remainder-wrapper\"],[9],[0,\"\\n\"],[4,\"each\",[[22,0,[\"cardArray\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\"],[12,\"class\",[28,[\"remainder-card \",[27,\"if\",[[22,1,[\"hide\"]],\"remainder-card-hide\"],null]]]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"cardOpen\",[22,1,[\"value\"]]],null]],[9],[10],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"    \"],[10],[0,\"\\n\"],[10],[0,\"\\n\\n\"],[4,\"if\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"remainder-mobile-help-card\"],[12,\"active\",[21,\"toggleHelpCardMobile\"]],[9],[0,\"\\n        \"],[7,\"ul\"],[9],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click only two cards at a time\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click the second card within 5 seconds after clicking the first card\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                If both the cards contains same number you gain two points and the cards will get ridden.\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                \"],[7,\"b\"],[9],[0,\"Remember the number on the cards you clicked.\"],[10],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[11,\"class\",\"rmhc--close\"],[9],[0,\"Close\"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/remainder-game.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "1KMbJ9P2", "block": "{\"symbols\":[\"card\",\"index\"],\"statements\":[[0,\"\\n\"],[4,\"if\",[[23,[\"showLoader\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"CSS--loader\"],[9],[10],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"col-sm-12 col-md-4 offset-md-1 d-flex flex-column\"],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"row m-0\"],[9],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"col-6 d-flex align-items-center\"],[9],[0,\"\\n                    Level \"],[1,[27,\"game-level\",[[23,[\"gameLevelDegree\"]]],null],false],[0,\"\\n                \"],[10],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"col-6\"],[9],[0,\"\\n\"],[4,\"if\",[[23,[\"movesCount\"]]],null,{\"statements\":[[0,\"                        \"],[7,\"button\"],[11,\"class\",\"btn btn-warning\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"clearLocalData\"],null]],[9],[0,\"Reset game\"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"                \"],[10],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n\\n        \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"d-flex justify-content-around align-items-center\"],[9],[0,\"\\n\"],[4,\"if\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"                    \"],[7,\"div\"],[11,\"class\",\"scorecard-help\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[9],[0,\"\\n                        Help\\n                    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"                \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Clicks : \"],[10],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[9],[1,[21,\"movesCount\"],false],[10],[0,\"\\n                \"],[7,\"b\"],[11,\"class\",\"scorecard-label\"],[9],[0,\"Points :\"],[10],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"moves-scorecard\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"clearData\"],null]],[9],[1,[21,\"gamePoints\"],false],[10],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n\\n\"],[4,\"unless\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\"],[11,\"class\",\"remainder-scorecard d-flex flex-column\"],[9],[0,\"\\n                \"],[7,\"div\"],[11,\"class\",\"blockquote\"],[9],[0,\"\\n\"],[4,\"if\",[[22,0,[\"messageOnScenario\"]]],null,{\"statements\":[[0,\"                    \"],[1,[27,\"game-message\",[[22,0,[\"messageOnScenario\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,0,[\"gameTurnStatus\"]]],null,{\"statements\":[[0,\"                    Now click to open the second card in \"],[7,\"b\"],[9],[1,[21,\"secondsNow\"],false],[10],[0,\" seconds\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                    Click to open a card\\n\"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"                \"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"gamePoints\"]]],null,{\"statements\":[[0,\"                \"],[7,\"div\"],[11,\"class\",\"d-flex \"],[9],[0,\"\\n                    \"],[7,\"div\"],[11,\"class\",\"col-3 col-sm-4 col p-0 font-weight-bolder\"],[11,\"data-toggle\",\"tooltip\"],[11,\"data-placement\",\"top\"],[11,\"title\",\"Tooltip on top\"],[9],[0,\"\\n                        Accuracy\\n                    \"],[10],[0,\"\\n                    \"],[7,\"div\"],[11,\"class\",\"progress col-9 col-sm-8 p-0\"],[9],[0,\"\\n                        \"],[7,\"div\"],[12,\"class\",[28,[\"progress-bar \",[23,[\"accuracyPoints\",\"class\"]]]]],[11,\"role\",\"progressbar\"],[12,\"style\",[23,[\"accuracyPoints\",\"html\"]]],[12,\"aria-valuenow\",[23,[\"accuracyPoints\",\"value\"]]],[11,\"aria-valuemin\",\"0\"],[11,\"aria-valuemax\",\"100\"],[9],[0,\"\\n                            \"],[1,[23,[\"accuracyPoints\",\"value\"]],false],[0,\"%\"],[10],[0,\"\\n                    \"],[10],[0,\"\\n                \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"            \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[10],[0,\"\\n\\n    \"],[7,\"div\"],[11,\"class\",\"col-sm-12 col-md-6 d-flex justify-content-center\"],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"remainder-wrapper w-100\"],[12,\"data-card-count\",[21,\"gameLevelDegree\"]],[9],[0,\"\\n\"],[4,\"each\",[[22,0,[\"cardArray\"]]],null,{\"statements\":[[0,\"                \"],[7,\"div\"],[12,\"class\",[28,[\"remainder-card\",[27,\"if\",[[22,1,[\"hide\"]],\" remainder-card-hide\"],null]]]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"cardOpen\",[22,1,[\"value\"]]],null]],[9],[10],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n\"],[4,\"if\",[[23,[\"isMobile\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"remainder-mobile-help-card\"],[12,\"active\",[21,\"toggleHelpCardMobile\"]],[9],[0,\"\\n        \"],[7,\"ul\"],[9],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click only two cards at a time\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                Click the second card within 5 seconds after clicking the first card\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                If both the cards contains same number you gain two points and the cards will get ridden.\\n            \"],[10],[0,\"\\n            \"],[7,\"li\"],[9],[0,\"\\n                \"],[7,\"b\"],[9],[0,\"Remember the number on the cards you clicked.\"],[10],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"mobileHelpCardFun\"],null]],[11,\"class\",\"rmhc--close\"],[9],[0,\"Close\"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/remainder-game.hbs" } });
 });
 ;define("portfolio-final-checkin/templates/components/scroll-to-top", ["exports"], function (exports) {
   "use strict";
@@ -1786,6 +2102,46 @@
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "ujbjycMC", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[23,[\"scrolledDown\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"title\",\"Scroll to top\"],[11,\"class\",\"scroll-to-top\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"scrollToTop\"],null]],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"stt__left\"],[9],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"stt__right\"],[9],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/components/scroll-to-top.hbs" } });
+});
+;define("portfolio-final-checkin/templates/gallery", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "T3EFT765", "block": "{\"symbols\":[],\"statements\":[[1,[21,\"gallery-component\"],false]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/gallery.hbs" } });
+});
+;define("portfolio-final-checkin/templates/gallery/kerala", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "tGiYGY1i", "block": "{\"symbols\":[\"imagesData\"],\"statements\":[[4,\"swiper-container\",null,[[\"options\"],[[23,[\"myOptions\"]]]],{\"statements\":[[4,\"each\",[[23,[\"galleryMainData\"]]],null,{\"statements\":[[4,\"swiper-slide\",null,null,{\"statements\":[[0,\"            \"],[7,\"div\"],[11,\"class\",\"gwm-slide-item\"],[12,\"style\",[28,[\"background-image: url(/assets/images/\",[22,1,[]],\")\"]]],[9],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/gallery/kerala.hbs" } });
+});
+;define("portfolio-final-checkin/templates/gallery/manali", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "kERdk7ba", "block": "{\"symbols\":[\"imagesData\"],\"statements\":[[4,\"swiper-container\",null,[[\"options\"],[[23,[\"myOptions\"]]]],{\"statements\":[[4,\"each\",[[23,[\"galleryMainData\"]]],null,{\"statements\":[[4,\"swiper-slide\",null,null,{\"statements\":[[0,\"            \"],[7,\"div\"],[11,\"class\",\"gwm-slide-item\"],[12,\"style\",[28,[\"background-image: url(/assets/images/\",[22,1,[]],\")\"]]],[9],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/gallery/manali.hbs" } });
+});
+;define("portfolio-final-checkin/templates/gallery/marina", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "fEwTSvsB", "block": "{\"symbols\":[\"imagesData\"],\"statements\":[[4,\"swiper-container\",null,[[\"options\"],[[23,[\"myOptions\"]]]],{\"statements\":[[4,\"each\",[[23,[\"galleryMainData\"]]],null,{\"statements\":[[4,\"swiper-slide\",null,null,{\"statements\":[[0,\"            \"],[7,\"div\"],[11,\"class\",\"gwm-slide-item\"],[12,\"style\",[28,[\"background-image: url(/assets/images/\",[22,1,[]],\")\"]]],[9],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/gallery/marina.hbs" } });
+});
+;define("portfolio-final-checkin/templates/gallery/south-india", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "5opuQ85Z", "block": "{\"symbols\":[\"imagesData\"],\"statements\":[[4,\"swiper-container\",null,[[\"options\"],[[23,[\"myOptions\"]]]],{\"statements\":[[4,\"each\",[[23,[\"galleryMainData\"]]],null,{\"statements\":[[4,\"swiper-slide\",null,null,{\"statements\":[[0,\"            \"],[7,\"div\"],[11,\"class\",\"gwm-slide-item\"],[12,\"style\",[28,[\"background-image: url(/assets/images/\",[22,1,[]],\")\"]]],[9],[10],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "portfolio-final-checkin/templates/gallery/south-india.hbs" } });
 });
 ;define("portfolio-final-checkin/templates/index", ["exports"], function (exports) {
   "use strict";
@@ -1842,7 +2198,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+e9b837c8"});
+            require("portfolio-final-checkin/app")["default"].create({"name":"portfolio-final-checkin","version":"0.0.0+1927ee4b"});
           }
         
 //# sourceMappingURL=portfolio-final-checkin.map
