@@ -9751,7 +9751,7 @@ html {
 }
 
 .remainder-scorecard .moves-scorecard {
-  font-size: 6vw;
+  font-size: 5vw;
 }
 @media (max-width: 1368px) {
   .remainder-scorecard .moves-scorecard {
@@ -10277,12 +10277,18 @@ button.navbar-toggler.clicked .nti__second {
   background-image: linear-gradient(to bottom right, #ff0000, #880000);
 }
 .remainder-card.rotate {
-  animation: card-rotate 0.5s ease-out;
+  animation: card-rotate 0.25s ease-out;
   transform: rotateY(0deg);
 }
 .remainder-card.rotate:hover {
   cursor: pointer;
   background-image: none;
+}
+.remainder-card.with-image {
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .remainder-card.remainder-card-hide {
   animation: card-hide 0.25s linear;
@@ -10566,6 +10572,70 @@ a .jumbotron:hover {
 .gw--main .CSS-caret-icon__close::after,
 .gw--main .CSS-caret-icon__close::before {
     background-color: #fff;
+  }
+}
+.level-up-wrapper, .level-up-container {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+.level-up-wrapper {
+  width: 100vw;
+  min-height: 300px;
+  animation: level-up-animation 0.5s ease-in;
+}
+
+.level-up-container {
+  width: 30vw;
+  height: 30vw;
+  border-radius: 50%;
+  border: 6px solid #fcf379;
+  justify-content: space-evenly;
+  padding: 25px;
+}
+.level-up-container img {
+  width: 80%;
+}
+@media (max-width: 426px) {
+  .level-up-container {
+    width: 80vw;
+    height: 80vw;
+  }
+}
+
+.lvc--head {
+  font-family: "Berkshire Swash";
+  font-size: 30px;
+  color: #fcf379;
+  text-shadow: 6px 4px 0px #77421b;
+}
+.lvc--head div {
+  text-align: center;
+}
+@media (max-width: 426px) {
+  .lvc--head {
+    font-size: 20px;
+  }
+}
+
+.lvc--points {
+  font-size: 45px;
+  padding: 10px;
+}
+
+@keyframes level-up-animation {
+  0% {
+    transform: scale(0, 0);
+  }
+  25% {
+    transform: scale(0.25, 0.25);
+  }
+  75% {
+    transform: scale(0.75, 0.75);
+  }
+  100% {
+    transform: scale(1, 1);
   }
 }
 
