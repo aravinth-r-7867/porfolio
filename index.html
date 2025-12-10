@@ -1,35 +1,242 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Aravinth Ramesh</title>
-    <meta name="description" content="Web developer, traveller and photographer">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-<meta name="portfolio-final-checkin/config/environment" content="%7B%22modulePrefix%22%3A%22portfolio-final-checkin%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22name%22%3A%22portfolio-final-checkin%22%2C%22version%22%3A%220.0.0+a18b93d9%22%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
-
-    <link integrity="" rel="stylesheet" href="/assets/vendor.css">
-    <link integrity="" rel="stylesheet" href="/assets/portfolio-final-checkin.css">
-    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash&display=swap" rel="stylesheet">
-    <link rel="preload" href="/assets/images/kanyakumari-wave.JPG" as="image">
-    <link rel="preload" href="/assets/images/marina-boat.JPG" as="image">
-    <link rel="preload" href="/assets/images/Rameshwaram-Pamban-bridge.JPG" as="image">
-    <link rel="preload" href="/assets/images/kanyakumari-horse.JPG" as="image">
-    <link rel="shortcut icon" type="image/png" href="/assets/favicon.png"/>
-
-    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Portfolio — Your Name</title>
+    <meta
+      name="description"
+      content="Simple portfolio - projects, about and contact."
+    />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --accent: #06b6d4;
+        --muted: #94a3b8;
+        --text: #e6eef6;
+        --radius: 10px;
+        --max-width: 1000px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        background: linear-gradient(180deg, var(--bg), #061024 120%);
+        color: var(--text);
+        line-height: 1.4;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        padding: 3rem 1rem;
+        display: flex;
+        justify-content: center;
+      }
+      .container {
+        width: 100%;
+        max-width: var(--max-width);
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .brand {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      .logo {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, var(--accent), #7c3aed);
+        border-radius: 10px;
+        display: inline-block;
+      }
+      nav a {
+        color: var(--muted);
+        text-decoration: none;
+        margin-left: 1rem;
+        font-size: 0.95rem;
+      }
+      nav a:hover {
+        color: var(--text);
+      }
+      main {
+        display: grid;
+        gap: 2rem;
+      }
+      .hero {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        padding: 1.5rem;
+        border-radius: var(--radius);
+        display: flex;
+        gap: 1.25rem;
+        align-items: center;
+      }
+      .intro {
+        flex: 1;
+      }
+      h1 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.6rem;
+      }
+      p.lead {
+        margin: 0 0 0.75rem 0;
+        color: var(--muted);
+      }
+      .cta {
+        display: inline-block;
+        padding: 0.5rem 0.9rem;
+        background: var(--accent);
+        color: #04202a;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .profile {
+        min-width: 88px;
+        height: 88px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #0ea5a49a, #7c3aed66);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: #021018;
+        font-size: 1.1rem;
+      }
+      section.cards {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .card {
+        background: var(--card);
+        padding: 1rem;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .card h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      footer {
+        margin-top: 1.5rem;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      @media (min-width: 700px) {
+        .hero {
+          padding: 2rem;
+        }
+        h1 {
+          font-size: 1.9rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    
+    <div class="container">
+      <header>
+        <div class="brand">
+          <span class="logo" aria-hidden="true"></span>
+          <div>
+            <div style="font-weight: 700">Aravinth</div>
+            <div style="font-size: 0.85rem; color: var(--muted)">
+              Frontend Developer
+            </div>
+          </div>
+        </div>
+        <nav aria-label="Main navigation">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
 
-    <script src="/assets/vendor.js" integrity="sha256-E8iAOBpH4Wd0nn/0mxo6hi7WhJxOjP0UHeNl3aAl12I= sha512-Tv0gwhzH74d5cTJXMfcP/ExHwvJO/5a47k1kavN2j4vGlv+2rW5/W2VVI+hDlT/t60Ox7EcSwG2EojHD3lw+zA==" ></script>
-    <script src="/assets/portfolio-final-checkin.js" integrity="sha256-pxNxdavIX10EjMx0k7AcusDPT7wGuVmgtKNPyRjxu8c= sha512-jUlXC9oNOLmQacgOrc885Tc6bbqaynKZ/Zg6Q/Jme7SP/7Qmcs8mzG4sE2VJpXOawCGzIUXQpMkrpWnx6uYttA==" ></script>
+      <main>
+        <section class="hero" aria-labelledby="intro-title">
+          <div class="intro">
+            <h1 id="intro-title">Hello — I'm Aravinth</h1>
+            <p class="lead">
+              I build simple, accessible web interfaces. Currently exploring
+              modern CSS and performance-focused frontend patterns.
+            </p>
+            <a class="cta" href="#work">View work</a>
+          </div>
+          <div class="profile" aria-hidden="true">A</div>
+        </section>
 
-    <div id="ember-bootstrap-wormhole"></div>
+        <section id="work">
+          <h2 style="margin: 0 0 0.75rem 0">Selected projects</h2>
+          <div class="cards" role="list">
+            <article class="card" role="listitem">
+              <h3>Portfolio Site</h3>
+              <div class="muted">
+                A lightweight, responsive portfolio built with HTML & CSS.
+              </div>
+            </article>
+
+            <article class="card" role="listitem">
+              <h3>UI Component Library</h3>
+              <div class="muted">
+                Reusable components with accessibility in mind.
+              </div>
+            </article>
+
+            <article class="card" role="listitem">
+              <h3>Performance Mini-App</h3>
+              <div class="muted">
+                Small app demonstrating lazy-loading and optimized assets.
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="about">
+          <h2 style="margin: 1rem 0 0.5rem 0">About</h2>
+          <p class="muted">
+            I focus on creating fast, maintainable frontends and enjoy learning
+            new techniques to improve user experience. Open to freelance and
+            collaboration.
+          </p>
+        </section>
+
+        <section id="contact">
+          <h2 style="margin: 1rem 0 0.5rem 0">Contact</h2>
+          <p class="muted">
+            Get in touch —
+            <a
+              href="mailto:you@example.com"
+              style="color: var(--accent); text-decoration: none"
+              >you@example.com</a
+            >
+          </p>
+        </section>
+      </main>
+
+      <footer>
+        <div>© <span id="year"></span> Aravinth — Built with HTML & CSS</div>
+      </footer>
+    </div>
+
+    <script>
+      // small nicety: current year
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>
